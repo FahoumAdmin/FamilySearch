@@ -1,0 +1,18 @@
+{
+  "name": "אפליקציית חימוש ונתונים PWA",
+  "short_name": "PWA Search",
+  "description": "אפליקציית חיפוש ב-3 שלבים מבוססת PWA",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#4A90E2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
