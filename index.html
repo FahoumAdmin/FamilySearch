@@ -1,193 +1,117 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PWA Search App</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4A90E2">
-  <style>
-    :root {
-      --primary: #4A90E2;
-      --bg: #f5f7fa;
-      --card: #ffffff;
-      --text: #333333;
-    }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: var(--card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .page { display: none; }
-    .page.active { display: block; }
-    
-    h1, h2 { color: var(--primary); margin-top: 0; }
-    
-    /* עיצוב רכיבים */
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-    button {
-      width: 100%;
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button.secondary {
-      background-color: #6c757d;
-      margin-top: 15px;
-    }
-    
-    /* עיצוב טבלה */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-    th, td {
-      padding: 12px;
-      text-align: right;
-      border-bottom: 1px solid #eee;
-    }
-    th { background-color: #f8f9fa; }
-    tbody tr { cursor: pointer; transition: background 0.2s; }
-    tbody tr:hover { background-color: #f1f3f5; }
-    
-    /* דף פרטים */
-    .detail-card {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      border-right: 4px solid var(--primary);
-      margin-top: 15px;
-    }
-    .detail-item { margin-bottom: 10px; font-size: 16px; }
-    .detail-item strong { color: var(--primary); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>חיפוש אנשים</title>
+
+    <meta name="theme-color" content="#1565c0">
+
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="icon" href="icons/icon-192.png">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<div class="container">
-  
-  <!-- דף 1: מסך חיפוש -->
-  <div id="page1" class="page active">
-    <h1>חיפוש מידע</h1>
-    <input type="text" id="searchInput" placeholder="הקלד מילת חיפוש (למשל: משה, כהן, תל אביב)...">
-    <button onclick="performSearch()">חפש</button>
-  </div>
+<header>
 
-  <!-- דף 2: מסך תוצאות בטבלה -->
-  <div id="page2" class="page">
-    <h2>תוצאות חיפוש</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>מזהה</th>
-          <th>שם מלא</th>
-          <th>עיר</th>
-        </tr>
-      </thead>
-      <tbody id="resultsTableBody">
-        <!-- התוצאות יוזרקו כאן דינמית -->
-      </tbody>
-    </table>
-    <button class="secondary" onclick="navigateTo('page1')">חזרה לחיפוש</button>
-  </div>
+    <h1>חיפוש אנשים</h1>
 
-  <!-- דף 3: מסך פרטי שורה -->
-  <div id="page3" class="page">
-    <h2>פרטי הפריט</h2>
-    <div id="detailContent" class="detail-card">
-      <!-- פרטי השורה יוזרקו כאן דינמית -->
+</header>
+
+<main class="container">
+
+    <section class="search-panel">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="הקלד שם מלא..."
+            autocomplete="off" />
+
+        <button id="searchBtn">
+            חיפוש
+        </button>
+
+        <button id="clearBtn">
+            נקה
+        </button>
+
+    </section>
+
+    <section>
+
+        <div id="status">
+            הקלד שם לחיפוש
+        </div>
+
+    </section>
+
+    <section>
+
+        <table id="resultsTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>שם מלא</th>
+                    <th>תאריך קבורה</th>
+                    <th>מיקום</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="resultsBody">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<!-- חלון פרטי אדם -->
+
+<div id="detailsModal" class="modal hidden">
+
+    <div class="modal-content">
+
+        <button id="closeModal" class="closeBtn">
+            ✖
+        </button>
+
+        <h2>פרטי אדם</h2>
+
+        <div id="detailsContent">
+
+        </div>
+
+        <div class="modalButtons">
+
+            <button id="copyBtn">
+                העתק פרטים
+            </button>
+
+            <button id="printBtn">
+                הדפס
+            </button>
+
+        </div>
+
     </div>
-    <button class="secondary" onclick="navigateTo('page2')">חזרה לטבלה</button>
-  </div>
 
 </div>
 
-<script>
-  // נתוני דמה (Mock Data) לחיפוש
-  const mockData = [
-    { id: 1, name: "משה לוי", city: "תל אביב", email: "moshe@example.com", phone: "050-1234567" },
-    { id: 2, name: "דוד כהן", city: "חיפה", email: "david@example.com", phone: "052-7654321" },
-    { id: 3, name: "שרה ישראלי", city: "ירושלים", email: "sara@example.com", phone: "054-9876543" },
-    { id: 4, name: "רחל אברהם", city: "תל אביב", email: "rachel@example.com", phone: "053-1112223" }
-  ];
+<script src="js/app.js"></script>
 
-  // ניווט בין דפים
-  function navigateTo(pageId) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-  }
-
-  // ביצוע החיפוש ורינדור הטבלה (דף 2)
-  function performSearch() {
-    const query = document.getElementById('searchInput').value.trim();
-    const tbody = document.getElementById('resultsTableBody');
-    tbody.innerHTML = "";
-
-    // סינון הנתונים לפי טקסט חופשי בשם או בעיר
-    const filtered = mockData.filter(item => 
-      item.name.includes(query) || item.city.includes(query)
-    );
-
-    if(filtered.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='3' style='text-align:center;'>לא נמצאו תוצאות</td></tr>";
-    } else {
-      filtered.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${item.id}</td><td>${item.name}</td><td>${item.city}</td>`;
-        tr.onclick = () => showDetails(item);
-        tbody.appendChild(tr);
-      });
-    }
-    navigateTo('page2');
-  }
-
-  // הצגת פרטי שורה (דף 3)
-  function showDetails(item) {
-    const container = document.getElementById('detailContent');
-    container.innerHTML = `
-      <div class="detail-item"><strong>מזהה ייחודי:</strong> ${item.id}</div>
-      <div class="detail-item"><strong>שם מלא:</strong> ${item.name}</div>
-      <div class="detail-item"><strong>עיר מגורים:</strong> ${item.city}</div>
-      <div class="detail-item"><strong>כתובת אימייל:</strong> ${item.email}</div>
-      <div class="detail-item"><strong>מספר טלפון:</strong> ${item.phone}</div>
-    `;
-    navigateTo('page3');
-  }
-
-  // רישום ה-Service Worker של ה-PWA
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker registered', reg))
-        .catch(err => console.error('Service Worker failed', err));
-    });
-  }
-</script>
 </body>
+
 </html>
