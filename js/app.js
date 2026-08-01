@@ -221,8 +221,8 @@ function clearSearch(){
     filteredPeople = [...people];
 
 
-    // renderTable();
-    resultsSection.style.display = "none";
+    renderTable();
+    // resultsSection.style.display = "none";
 
 }
 
@@ -260,7 +260,7 @@ function normalizeText(text){
 
 function renderTable(){
 
-    resultsSection.style.display = "block";
+    // resultsSection.style.display = "block";
     
     resultsBody.innerHTML = "";
 
