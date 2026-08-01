@@ -37,7 +37,7 @@ const copyBtn = document.getElementById("copyBtn");
 
 const printBtn = document.getElementById("printBtn");
 
-
+const resultsSection = document.getElementById("resultsSection");
 
 
 // טעינת האפליקציה
@@ -221,7 +221,8 @@ function clearSearch(){
     filteredPeople = [...people];
 
 
-    renderTable();
+    // renderTable();
+    resultsSection.style.display = "none";
 
 }
 
@@ -259,7 +260,8 @@ function normalizeText(text){
 
 function renderTable(){
 
-
+    resultsSection.style.display = "block";
+    
     resultsBody.innerHTML = "";
 
 
