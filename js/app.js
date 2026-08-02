@@ -287,7 +287,13 @@ function renderTable(){
                         person.fullName
                     )}
                 </td>
-
+                
+                <td>
+                    ${formatDate(
+                        person.birthDate
+                    )}
+                </td>
+                
                 <td>
                     ${formatDate(
                         person.burialDate
