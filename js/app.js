@@ -37,7 +37,7 @@ const copyBtn = document.getElementById("copyBtn");
 
 const printBtn = document.getElementById("printBtn");
 
-const resultsSection = document.getElementById("resultsSection");
+// const resultsSection = document.getElementById("resultsSection");
 
 
 // טעינת האפליקציה
